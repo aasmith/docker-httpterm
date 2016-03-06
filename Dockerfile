@@ -1,9 +1,10 @@
 FROM debian:jessie
 
-ENV HTTPTERM_VERSION HEAD
+ENV HTTPTERM_VERSION 1.7.2
+ENV HTTPTERM_MD5 531c0a83c5a6e75cb4b8eb212b56492c
 
-ENV HTTPTERM_NAME httpterm
-ENV HTTPTERM_ARCHIVE ${HTTPTERM_NAME}-${HTTPTERM_VERSION}.tar.gz
+ENV HTTPTERM_NAME httpterm-${HTTPTERM_VERSION}
+ENV HTTPTERM_ARCHIVE ${HTTPTERM_NAME}.tar.gz
 
 ENV HTTPTERM_MAXCONN 300000
 
@@ -11,7 +12,8 @@ RUN buildDeps='curl gcc make libc-dev' && \
     apt-get update && \
     apt-get install --no-install-recommends -y ${buildDeps} && \
 
-    curl -OJ "http://git.1wt.eu/web?p=httpterm.git;a=snapshot;h=HEAD;sf=tgz" && \
+    curl -OJ http://1wt.eu/tools/httpterm/${HTTPTERM_ARCHIVE} && \
+    echo "${HTTPTERM_MD5}  ${HTTPTERM_ARCHIVE}" | md5sum -c && \
 
     tar zxvf ${HTTPTERM_ARCHIVE} && \
     make -C ${HTTPTERM_NAME} && \
