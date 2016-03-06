@@ -11,7 +11,7 @@ RUN buildDeps='curl gcc make libc-dev' && \
     apt-get update && \
     apt-get install --no-install-recommends -y ${buildDeps} && \
 
-    curl -OJ "http://git.1wt.eu/web?p=httpterm.git;a=snapshot;h=HEAD;sf=tgz" && \
+    curl -OJ "http://git.1wt.eu/web?p=httpterm.git;a=snapshot;h=${HTTPTERM_VERSION};sf=tgz" && \
 
     tar zxvf ${HTTPTERM_ARCHIVE} && \
     make -C ${HTTPTERM_NAME} && \
