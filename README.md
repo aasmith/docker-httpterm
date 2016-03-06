@@ -6,6 +6,25 @@ A docker image for Willy Tarreu's http terminator. See http://git.1wt.eu/web?p=h
 By default, an instance is started on port 8000. If are you pushing serious traffic, you probably want `--net=host` 
 and should disable conntrack in iptables.
 
+### File descriptor limits
+
+As httpterm is used in load testing scenarios, you may want to support a high number of connections. Recent versions
+of docker use a far more restrictive `ulimit -n`, so you will probably see the following warning:
+
+```
+[WARNING] 061/144051 (7) : [httpterm.main()] Cannot raise FD limit to 300011.
+[WARNING] 061/144051 (7) : [httpterm.main()] FD limit (1024) too low for maxconn=300000/maxsock=300011. Please raise 'ulimit-n' to 300011 or more to avoid any trouble.
+```
+
+Try running the container with `--ulimit nofile=1000000` or some other high number to alleviate this.
+
+### CPU pinning
+
+If you are [pinning interrupts][0], make sure httpterm runs on a dedicated CPU core. `--cpuset-cpus 0` or whichever CPU is
+free from these interrupts (si in top).
+
+[0]: https://www.haproxy.com/doc/hapee/1.5/system/tunning.html
+
 ## Usage
 
 A list of parameters can be fetched from `localhost:8000/?`:
