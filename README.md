@@ -4,7 +4,8 @@ A docker image for Willy Tarreu's http terminator. See http://git.1wt.eu/web?p=h
 ## Notes
 
 By default, an instance is started on port 8000. If are you pushing serious traffic, you probably want `--net=host` 
-and should disable conntrack in iptables.
+and should disable conntrack in iptables. Starting the docker daemon with `--ip-masq=false --iptables=false` should
+be sufficient to do this -- if you understand the implications!
 
 ### File descriptor limits
 
