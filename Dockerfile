@@ -23,5 +23,6 @@ RUN buildDeps='curl gcc make libc-dev' && \
 
 EXPOSE 8000
 
+ENTRYPOINT ["httpterm", "-n","${HTTPTERM_MAXCONN}", "-N","${HTTPTERM_MAXCONN}"]
 # Intentionally use shell form here, so ^C will work.
-CMD httpterm -n ${HTTPTERM_MAXCONN} -N ${HTTPTERM_MAXCONN} -L :8000
+CMD ["-L",":8000"]
