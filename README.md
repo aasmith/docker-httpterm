@@ -3,7 +3,7 @@ A docker image for Willy Tarreu's http terminator. See http://git.1wt.eu/web?p=h
 
 ## Notes
 
-By default, an instance is started on port 8000. If are you pushing serious traffic, you probably want `--net=host` 
+By default, an instance is started on port 8000. If are you pushing serious traffic, you probably want `--net=host`
 and should disable conntrack in iptables. Starting the docker daemon with `--ip-masq=false --iptables=false` should
 be sufficient to do this -- if you understand the implications!
 
@@ -27,6 +27,14 @@ free from these interrupts (si in top).
 [0]: https://www.haproxy.com/doc/hapee/1.5/system/tunning.html
 
 ## Usage
+
+Any args passed to the container are args directly applied to httpterm process.  The default is to start the container with `-n 300000 -N 300000 -L :8000` which starts a server listening on port 8000 and caps the max connections per listener and the total global max to 300000.
+
+An example of a more complicated run:
+
+```
+docker run -d --ulimit nofile=1000000 --cpuset-cpus 5 --name httpterm -it --net=host -v /tmp/httpterm.cfg:/tmp/httpterm.cfg aasmith/httpterm -f /tmp/httpterm.cfg -V
+```
 
 A list of parameters can be fetched from `localhost:8000/?`:
 
